@@ -22,7 +22,7 @@
             <div class="card mt-5">
                 <div class="card-body">
                     <h5 class="card-title">
-                        <a href="<?php echo 'controllers/redirect.php?long=' . $_GET['long']; ?>" target="_blank"><?php echo $_GET['short']; ?></a>
+                        <a href="<?php echo $_GET['long']; ?>" target="_blank"><?php echo $_GET['short']; ?></a>
                     </h5>
                     <p class="card-text"><span>Long url: </span><?php echo $_GET['long']; ?></p>
                     <p class="card-text mr-3 borders"><span>Date: </span><?php echo date("d/m/Y", time()); ?></p>

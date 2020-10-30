@@ -1,0 +1,8 @@
+
+Options +SymLinksIfOwnerMatch 
+RewriteEngine On 
+RewriteCond %{REQUEST_FILENAME} !-f 
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /praksa/shortener/controllers/redirect.php [L]
+
+RedirectMatch 301 /praksa/shortener/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{5}$ /praksa/shortener/index.php

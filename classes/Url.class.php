@@ -12,7 +12,7 @@ class Url{
     // Set short url
     public function setShortUrl($short_url)
     {
-        $this->short_url = $short_url;
+        $this->short_url = urldecode($short_url);
     }
 
     // Store URL into database
@@ -27,7 +27,7 @@ class Url{
 
         $stmt->bindValue(':user_id', $user_id);
         $stmt->bindValue(':long_url', $this->long_url, PDO::PARAM_STR); 
-        $stmt->bindValue(':short_url', $this->shortenUrl(), PDO::PARAM_STR); 
+        $stmt->bindValue(':short_url', $this->short_url); 
 
         return $stmt->execute();
     }
@@ -66,7 +66,7 @@ class Url{
         // Create randomly 5 characters
         $random_chars = $rand = substr(md5(microtime()),rand(0,26),5);
 
-        $short_url = 'http://' . $host_name . '/' . $random_chars;
+        $short_url = 'http://' . $host_name . '/praksa/shortener/' . $random_chars;
 
         return urlencode($short_url);
     }
@@ -131,6 +131,22 @@ class Url{
         $count = $stmt->rowCount();
 
         return $count;
+    }
+
+    public static function getLongUrl($short_url)
+    {
+        $db = Database::getInstance();
+        $conn = $db->getConnection();
+
+        $sql = "SELECT long_url FROM url WHERE short_url = :short_url";
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':short_url', $short_url);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_OBJ);
+
+        return $result;
     }
 }
 ?>
